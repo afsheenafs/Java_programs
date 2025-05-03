@@ -1,0 +1,117 @@
+#include <stdio.h>
+#include <stdlib.h>
+
+// Node structure for singly linked list
+struct Node {
+    int data;
+    struct Node* next;
+};
+
+// Function to create a new node
+struct Node* createNode(int data) {
+    struct Node* newNode = (struct Node*)malloc(sizeof(struct Node));
+    if (newNode == NULL) {
+        printf("Memory allocation failed.\n");
+        exit(1);
+    }
+    newNode->data = data;
+    newNode->next = NULL;
+    return newNode;
+}
+
+// Singly linked list operations
+void insertAtBeginning(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    newNode->next = *head;
+    *head = newNode;
+}
+
+void insertAtEnd(struct Node** head, int data) {
+    struct Node* newNode = createNode(data);
+    if (*head == NULL) {
+        *head = newNode;
+        return;
+    }
+    struct Node* temp = *head;
+    while (temp->next != NULL) {
+        temp = temp->next;
+    }
+    temp->next = newNode;
+}
+
+void displaySinglyLinkedList(struct Node* head) {
+    if (head == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+    struct Node* temp = head;
+    while (temp != NULL) {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    }
+    printf("NULL\n");
+}
+
+// Circular linked list operations
+struct Node* addToEmpty(int data) {
+    struct Node* newNode = createNode(data);
+    newNode->next = newNode;
+    return newNode;
+}
+
+void addToBeginning(struct Node** last, int data) {
+    if (*last == NULL) {
+        *last = addToEmpty(data);
+        return;
+    }
+    struct Node* newNode = createNode(data);
+    newNode->next = (*last)->next;
+    (*last)->next = newNode;
+}
+
+void addToEnd(struct Node** last, int data) {
+    if (*last == NULL) {
+        *last = addToEmpty(data);
+        return;
+    }
+    struct Node* newNode = createNode(data);
+    newNode->next = (*last)->next;
+    (*last)->next = newNode;
+    *last = newNode;
+}
+
+void displayCircularLinkedList(struct Node* last) {
+    if (last == NULL) {
+        printf("The list is empty.\n");
+        return;
+    }
+    struct Node* temp = last->next;
+    do {
+        printf("%d -> ", temp->data);
+        temp = temp->next;
+    } while (temp != last->next);
+    printf("...\n");
+}
+
+// Sample usage
+int main() {
+    struct Node* head = NULL; // Head for singly linked list
+    struct Node* last = NULL; // Last node for circular linked list
+
+    // Singly linked list operations
+    insertAtEnd(&head, 10);
+    insertAtEnd(&head, 20);
+    insertAtEnd(&head, 30);
+    printf("Singly Linked List: ");
+    displaySinglyLinkedList(head);
+
+    // Circular linked list operations
+    addToEnd(&last, 5);
+    addToEnd(&last, 15);
+    addToEnd(&last, 25);
+
+    printf("Circular Linked List: ");
+    displayCircularLinkedList(last);
+
+    return 0;
+}

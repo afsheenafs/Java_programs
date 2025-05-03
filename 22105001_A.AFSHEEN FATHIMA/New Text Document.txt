@@ -1,0 +1,9 @@
+import java.io.*;
+class Person
+{
+int ht=170;
+int wt=56;
+int aadhar id=794408654317;
+class Student
+{
+
